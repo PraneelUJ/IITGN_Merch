@@ -52,15 +52,28 @@ export default function TedxItem1page({
     element.classList.toggle("fullsize");
   }
   async function buynow(club, imgsrc, prodname, quantity, size, totaling, id) {
-    setclub(club);
-    setimgsrc(imgsrc);
-    setprodname(prodname);
-    setquantity(quantity);
-    setsize(size);
-    settotaling(totaling);
-    setids(id);
-    navigate("/buynow");
-    console.log(club, imgsrc, prodname, quantity, size, totaling);
+    if (
+      size === "" ||
+      quantity === 0 ||
+      totaling === 0 ||
+      prodname === "" ||
+      imgsrc === "" ||
+      club === "" ||
+      id === ""
+    ) {
+      alert("Can't proceed due to empty fields! Fill all fields to buy items");
+    } else {
+      setclub(club);
+      setimgsrc(imgsrc);
+      setprodname(prodname);
+      setquantity(quantity);
+      setsize(size);
+      settotaling(totaling);
+      setids(id);
+      alert("Proceeding to item purchase successfully");
+      navigate("/buynow");
+      console.log(club, imgsrc, prodname, quantity, size, totaling);
+    }
   }
   async function addToCart(email, size, qty, total, name, imgsrc, club) {
     try {
@@ -73,7 +86,22 @@ export default function TedxItem1page({
         imgsrc,
         club,
       };
-      await addDoc(collection(db, "cart"), data);
+      if (
+        email === "" ||
+        size === "" ||
+        qty === 0 ||
+        total === 0 ||
+        name === "" ||
+        imgsrc === "" ||
+        club === ""
+      ) {
+        alert(
+          "Can't submit due to empty fields! Fill all fields to add to cart"
+        );
+      } else {
+        alert("Item added to cart successfully");
+        await addDoc(collection(db, "cart"), data);
+      }
     } catch (error) {
       console.error("Error adding to cart:", error.code, error.message);
     }
@@ -201,9 +229,9 @@ export default function TedxItem1page({
                   return;
                 }
                 buynow(
-                  "Amalthea",
+                  "Tedx",
                   item.imgsrc,
-                  item.name || "Amalthea 2025 Tshirt",
+                  item.name || "Tedx 2026 Tshirt",
                   quant,
                   siz,
                   cost,
@@ -226,9 +254,9 @@ export default function TedxItem1page({
                   siz,
                   quant,
                   cost,
-                  item.name || "Amalthea 2025 Tshirt",
+                  item.name || "TedxIITGandhinagar 2026 Tshirt",
                   item.imgsrc,
-                  "Amalthea"
+                  "Tedx"
                 );
               }}
             >

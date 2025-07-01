@@ -51,11 +51,27 @@ export default function Upipayment({
   const [items, setitems] = useState([]);
 
   useEffect(() => {
-    const upiId = "random";
-    const name = "random";
-    const note = "Learning React UPI";
-    const link = `upi://pay?pa=${upiId}&pn=${name}&am=${totaling}&tn=${note}&cu=INR`;
-    setupiurl(link);
+    if (club == "Amalthea") {
+      const upiId = "anjaliputj@okhdfcbank";
+      const name = "Anjali Joshi";
+      const note = "Learning React UPI";
+      const link = `upi://pay?pa=${upiId}&pn=${name}&am=${totaling}&tn=${note}&cu=INR`;
+      setupiurl(link);
+    }
+    if (club == "Blithchron") {
+      const upiId = "praneeluj@okicici";
+      const name = "Praneel Joshi";
+      const note = "Learning React UPI";
+      const link = `upi://pay?pa=${upiId}&pn=${name}&am=${totaling}&tn=${note}&cu=INR`;
+      setupiurl(link);
+    }
+    if (club == "Tedx") {
+      const upiId = "random";
+      const name = "random";
+      const note = "Learning React UPI";
+      const link = `upi://pay?pa=${upiId}&pn=${name}&am=${totaling}&tn=${note}&cu=INR`;
+      setupiurl(link);
+    }
   }, [totaling]);
 
   async function deleteitem(id) {

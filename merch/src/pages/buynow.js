@@ -47,6 +47,22 @@ export default function Buynow({
     alert("Deleting purchase of product");
     navigate("/userdashboard");
   }
+
+  async function deleteitemafterbuy() {
+    try {
+      if (!ids || typeof ids !== "string") {
+        console.warn("Invalid or missing item ID. Cannot delete.");
+        return;
+      }
+      console.log(ids);
+      const itemRef = doc(db, "cart", ids); // ✅ Valid document reference
+      await deleteDoc(itemRef);
+      console.log("Item removed from cart.");
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  }
+
   async function updatestock(name, club, qty) {
     try {
       const ref1 = collection(db, club);
@@ -116,6 +132,7 @@ export default function Buynow({
       setquantity("");
       setsize("");
       settotaling("");
+      deleteitemafterbuy();
       navigate("/userdashboard");
     } catch (error) {
       console.error("Error placing order or sending email:", error);

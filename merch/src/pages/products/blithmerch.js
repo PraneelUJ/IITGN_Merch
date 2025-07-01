@@ -26,16 +26,15 @@ export default function BlithItem1page({
   const [quant, setQuant] = useState(1);
   const [item, setItem] = useState(null);
   const [siz, setsiz] = useState("");
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
-  // Fetch item with document ID "1" from "Amalthea" collection
   useEffect(() => {
     async function fetchItem() {
       try {
-        const ref = doc(db, "Blithchron", "1");
+        const ref = doc(db, "Blithchron", "1"); // 🔍 Fetching from correct club
         const snap = await getDoc(ref);
         if (snap.exists()) {
-          setItem(snap.data());
+          setItem({ id: snap.id, ...snap.data() }); // ✅ Include document ID
         } else {
           console.log("No document found.");
         }
@@ -52,17 +51,32 @@ export default function BlithItem1page({
   function toggleImageSize(element) {
     element.classList.toggle("fullsize");
   }
+
   async function buynow(club, imgsrc, prodname, quantity, size, totaling, id) {
-    setclub(club);
-    setimgsrc(imgsrc);
-    setprodname(prodname);
-    setquantity(quantity);
-    setsize(size);
-    settotaling(totaling);
-    setids(id);
-    navigate("/buynow");
-    console.log(club, imgsrc, prodname, quantity, size, totaling);
+    if (
+      size === "" ||
+      quantity === 0 ||
+      totaling === 0 ||
+      prodname === "" ||
+      imgsrc === "" ||
+      club === "" ||
+      id === ""
+    ) {
+      alert("Can't proceed due to empty fields! Fill all fields to buy items");
+    } else {
+      setclub(club);
+      setimgsrc(imgsrc);
+      setprodname(prodname);
+      setquantity(quantity);
+      setsize(size);
+      settotaling(totaling);
+      setids(id);
+      alert("Proceeding to item purchase successfully");
+      navigate("/buynow");
+      console.log(club, imgsrc, prodname, quantity, size, totaling);
+    }
   }
+
   async function addToCart(email, size, qty, total, name, imgsrc, club) {
     try {
       const data = {
@@ -74,7 +88,22 @@ export default function BlithItem1page({
         imgsrc,
         club,
       };
-      await addDoc(collection(db, "cart"), data);
+      if (
+        email === "" ||
+        size === "" ||
+        qty === 0 ||
+        total === 0 ||
+        name === "" ||
+        imgsrc === "" ||
+        club === ""
+      ) {
+        alert(
+          "Can't submit due to empty fields! Fill all fields to add to cart"
+        );
+      } else {
+        alert("Item added to cart successfully");
+        await addDoc(collection(db, "cart"), data);
+      }
     } catch (error) {
       console.error("Error adding to cart:", error.code, error.message);
     }
@@ -202,9 +231,9 @@ export default function BlithItem1page({
                   return;
                 }
                 buynow(
-                  "Amalthea",
+                  "Blithchron", // ✅ Fixed
                   item.imgsrc,
-                  item.name || "Amalthea 2025 Tshirt",
+                  item.name || "Blithchron 2025 Tshirt", // ✅ Fixed
                   quant,
                   siz,
                   cost,
@@ -227,9 +256,9 @@ export default function BlithItem1page({
                   siz,
                   quant,
                   cost,
-                  item.name || "Amalthea 2025 Tshirt",
+                  item.name || "Blithchron 2025 Tshirt", // ✅ Fixed
                   item.imgsrc,
-                  "Amalthea"
+                  "Blithchron" // ✅ Fixed
                 );
               }}
             >
